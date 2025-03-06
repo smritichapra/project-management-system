@@ -1,0 +1,237 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentor Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f7;
+            display: flex;
+        }
+
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #1a1650;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li a.active,
+        .sidebar ul li a:hover {
+            background-color: #6a5acd;
+        }
+
+        .logout-btn {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            display: block;
+            padding: 15px;
+            background-color: #ff4d4d;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .content {
+            flex: 1;
+            padding: 40px;
+            background: #f5f5f5;
+        }
+
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header .icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        .team-details {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .team-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #6a5acd;
+            color: white;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .project-details {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #6a5acd;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 5px;
+            text-align: center;
+            transition: background 0.3s;
+        }
+
+        .project-details:hover {
+            background-color: #5943b1;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="profile-icon"></div>
+                <h2>Mentor</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'dashboard' %}" class="active">My Teams</a></li>
+                    <li><a href="{% url 'tasks' %}">Tasks</a></li>
+                    <li><a href="{% url 'Mmarks' %}">Marks</a></li>
+                    <li><a href="{% url 'notification' %}">Notification</a></li>
+                    <li><a href="{% url 'report' %}">Report</a></li>
+                </ul>
+            </nav>
+            <a href="{% url 'main' %}" class="logout-btn">Logout</a>
+        </aside>
+        <main class="main-content">
+            <header>
+                <h1><span class="icon">👥</span> My Team Details</h1>
+            </header>
+            {% for team in team_details %}
+            <section class="team-details">
+                <div class="team-header">
+                    <h2>{{ team.team_name }}</h2>
+                    <h2>Team ID: {{ team.team_id }}</h2>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>SNO.</th>
+                            <th>Name</th>
+                            <th>Class</th>
+                            <th>Branch</th>
+                            <th>stu_id</th>
+                            <th>E-mail</th>
+                            <th>Phone no.</th>
+                            <th>Semester</th>
+                            <th>Roll-no</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in team.members %}
+                        <tr>
+                            <td>{{ member.sno }}</td>
+                            <td>{{ member.name }}</td>
+                            <td>{{ member.class }}</td>
+                            <td>{{ member.branch }}</td>
+                            <td>{{ member.stu_id }}</td>
+                            <td>{{ member.email }}</td>
+                            <td>{{ member.phone_no }}</td>
+                            <td>{{ member.semester }}</td>
+                            <td>{{ member.roll_no }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                </table>
+                <button class="project-details" onclick="navigateTo('{% url 'Mproject' team.team_id %}')">Project Details</button>
+            </section>
+            {% endfor %}
+        </main>
+    </div>
+    <script>
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+        </script>
+</body>
+</html>
+

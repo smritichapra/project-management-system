@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Successful</title>
+    <link rel="stylesheet" href="{% static 'css/tsignup_success.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Signup Successful</h1>
+        <p>Your Team ID: <strong>{{ team_id }}</strong></p>
+        <p>Use this Team ID to log in.</p>
+        <a href="{% url 'tlogin' %}">Go to Login</a>
+    </div>
+</body>
+</html>

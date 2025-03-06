@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentor Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #1E1A68;
+            color: white;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+        }
+
+        .sidebar h2 {
+            margin-left: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .sidebar a {
+            padding: 15px 20px;
+            color: white;
+            text-decoration: none;
+            display: block;
+            font-size: 18px;
+        }
+
+        .sidebar a.active {
+            background-color: #a0a3f3;
+            color: #1E1A68;
+            border-radius: 5px;
+        }
+
+        .sidebar a:hover {
+            background-color: #5754d1;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .logout {
+            margin-top: auto;
+            padding: 15px 20px;
+            background-color: #1E1A68;
+            text-align: center;
+        }
+
+        /* Main content styling */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            background-color: #f6f6f6;
+            min-height: 100vh;
+        }
+
+        .marks-section {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1e9e0;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #fffaf5;
+        }
+
+        /* Button styling */
+        .btn {
+            padding: 10px 20px;
+            background-color: #5BC236;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #45a025;
+        }
+
+        .btn-upload {
+            background-color: #4A90E2;
+        }
+
+        .btn-upload:hover {
+            background-color: #357ab8;
+        }
+
+        input[type="number"] {
+            width: 50px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        .marks-display {
+            padding: 5px 10px;
+            background-color: #e8e8e8;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .input-cell {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <a href="#">My Teams</a>
+        <a href="#" class="active">Marks</a>
+        <a href="#">Notification</a>
+        <a href="#">Report</a>
+        <div class="logout">
+            <a href="#" style="color: white;">Logout</a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="marks-section">
+            <h1>Marks</h1>
+            <hr>
+            <h2>Team 1</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>SNO.</th>
+                        <th>Name</th>
+                        <th>stu_id</th>
+                        <th>Email</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody id="team1-body">
+                    <tr>
+                        <td>1</td>
+                        <td>John Doe</td>
+                        <td>1001</td>
+                        <td>john@example.com</td>
+                        <td class="input-cell">
+                            <span class="marks-display" onclick="editMarks(this)">0</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Jane Smith</td>
+                        <td>1002</td>
+                        <td>jane@example.com</td>
+                        <td class="input-cell">
+                            <span class="marks-display" onclick="editMarks(this)">0</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn" onclick="applyMarksToAll()">Update All</button>
+            <button class="btn btn-upload" onclick="uploadMarks()">Upload Marks</button>
+        </div>
+    </div>
+    
+    <script>
+        // Function to update all marks in the team
+        function applyMarksToAll() {
+            const markInput = prompt("Enter marks for all team members:");
+            if (markInput !== null && !isNaN(markInput)) {
+                const marks = parseInt(markInput, 10);
+                document.querySelectorAll('.marks-display').forEach(span => {
+                    span.textContent = marks;
+                });
+                alert("Marks updated for all team members.");
+            } else {
+                alert("Invalid input. Please enter a valid number.");
+            }
+        }
+
+        // Function to handle editable marks
+        function editMarks(element) {
+            const currentMarks = element.textContent;
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.value = currentMarks;
+            input.min = 0;
+            input.max = 100;
+            input.style.width = '50px';
+
+            // Save updated marks on blur
+            input.onblur = function() {
+                if (!isNaN(input.value) && input.value !== '') {
+                    element.textContent = input.value;
+                }
+                element.style.display = 'inline';
+                input.remove();
+            };
+
+            element.style.display = 'none';
+            element.parentNode.appendChild(input);
+            input.focus();
+        }
+
+        // Function to simulate uploading marks
+        function uploadMarks() {
+            alert("Marks successfully uploaded to coordinator!");
+        }
+    </script>
+</body>
+</html>

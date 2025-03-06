@@ -1,0 +1,144 @@
+/* General Styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background-color: #1a1650;
+    color: white;
+    padding: 20px;
+    height: 100vh;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.sidebar .role {
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 30px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.sidebar ul li a.active,
+.sidebar ul li a:hover {
+    background-color: #6a5acd;
+}
+
+.logout-btn {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    display: block;
+    padding: 15px;
+    background-color: #ff4d4d;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.logout-btn:hover {
+    background-color: #ff1a1a;
+}
+
+/* Content Area */
+.content {
+    flex: 1;
+    padding: 40px;
+    background: #f5f5f5;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1a1650;
+    display: flex;
+    align-items: center;
+}
+
+.section-title span {
+    margin-left: 10px;
+}
+
+.section-divider {
+    border: none;
+    height: 2px;
+    background-color: #1a1650;
+    width: 100%;
+    margin: 10px 0 30px;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fffaf0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+table th {
+    background: #f4e6c2;
+    font-weight: bold;
+    color: #1a1650;
+}
+
+table ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+table ul li {
+    margin-bottom: 5px;
+}
+
+/* Back Button */
+.back-button {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.back-button button {
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    background-color: #1a1650;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-button button:hover {
+    background-color: #6a5acd;
+}

@@ -1,0 +1,259 @@
+{% comment %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/team/styles.css' %}">
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <ul>
+        <li><a href="#" onclick="showSection('team-members')">Team Members</a></li>
+        <li><a href="#" onclick="showSection('groups')">Groups</a></li>
+        <li><a href="#" onclick="showSection('report')">Report</a></li>
+        <li><a href="#" onclick="showSection('notification')">Notification</a></li>
+        <li><a href="#" onclick="logout()" class="logout">Logout</a></li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Team Members Section -->
+      <div id="team-members" class="section active">
+        <h2>Team Members</h2>
+        <button onclick="showForm()">Add Team Member</button>
+        <table id="team-members-table">
+          <thead>
+            <tr>
+              <th>S. No.</th>
+              <th>Name</th>
+              <th>Class</th>
+              <th>Branch</th>
+              <th>Stu ID</th>
+              <th>Email</th>
+              <th>Phone No.</th>
+              <th>Semester</th>
+              <th>Roll No.</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rows will be added dynamically -->
+          </tbody>
+        </table>
+        <div id="add-form" style="display: none;">
+          <h3>Add New Team Member</h3>
+          <form id="team-member-form">
+            <input type="text" placeholder="S. No." required>
+            <input type="text" placeholder="Name" required>
+            <input type="text" placeholder="Class" required>
+            <input type="text" placeholder="Branch" required>
+            <input type="text" placeholder="Stu ID" required>
+            <input type="email" placeholder="Email" required>
+            <input type="text" placeholder="Phone No." required>
+            <input type="text" placeholder="Semester" required>
+            <input type="text" placeholder="Roll No." required>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Groups Section -->
+      <div id="groups" class="section">
+        <h2>Groups</h2>
+        <table id="groups-table">
+          <thead>
+            <tr>
+              <th>Team Name</th>
+              <th>Name of Members</th>
+              <th>Project Name</th>
+              <th>Mentor</th>
+              <th>Abstract</th>
+              <th>Team ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rows will be added dynamically -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Report Section -->
+      <div id="report" class="section">
+        <h2>Report a Problem</h2>
+        <form id="report-form">
+          <label for="recipient">Select Recipient:</label>
+          <select id="recipient" required>
+            <option value="mentor">Mentor</option>
+            <option value="coordinator">Coordinator</option>
+          </select>
+          <label for="description">Description:</label>
+          <textarea id="description" rows="5" placeholder="Describe your problem..." required></textarea>
+          <button type="submit">Submit Report</button>
+        </form>
+      </div>
+
+      <!-- Notification Section -->
+      <div id="notification" class="section">
+        <h2>Notifications</h2>
+        <ul id="notification-list">
+          <!-- Notifications will be added dynamically -->
+        </ul>
+        <button onclick="viewAllNotifications()">View All</button>
+      </div>
+    </div>
+  </div>
+  <script src=" {% static 'js/team/index.js' %}"></script>
+</body>
+</html> {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/tasks.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="profile-icon"></div>
+                <h2>Mentor</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li onclick="navigateTo('{% url 'dashboard' %}')">My Teams</li>
+                    <li class="active" onclick="navigateTo('{% url 'tasks' %}')">Tasks</li>
+                    <li onclick="navigateTo('{% url 'notification' %}')">Notification</li>
+                    <li onclick="navigateTo('{% url 'report' %}')">Report</li>
+                </ul>
+            </nav>
+            <div class="logout-btn" onclick="navigateTo('{% url 'Mlogin' %}')">Logout</div>
+        </aside>
+        <main class="content">
+            <header class="header">
+                <h1><span class="icon">📋</span> Tasks</h1>
+            </header>
+            <section class="tasks-section">
+                <div class="tasks-header">
+                    <h2>Tasks</h2>
+                    <button class="add-task-btn" onclick="openAddTaskForm()">+ Add Task</button>
+                </div>
+                <table class="tasks-table">
+                    <thead>
+                        <tr>
+                            <th>Document Title</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Attached File</th>
+                            <th>View Submissions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tasks-list">
+                        {% for task in tasks %}
+                        <tr>
+                            <td>{{ task.doc_title }}</td>
+                            <td>{{ task.start_date }}</td>
+                            <td>{{ task.end_date }}</td>
+                            <td>
+                                {% if task.file_upload %}
+                                <a href="{{ request.scheme }}://{{ request.get_host }}{{ task.file_upload.url }}" target="_blank">
+                                    Open File
+                                </a>
+                                {% else %}
+                                No File Attached
+                                {% endif %}
+                            </td>
+                            <td>
+                                <button class="view-submissions-btn" onclick="openSubmissionsModal('{{ task.task_id }}')">View Submissions</button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5">No tasks found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Task Form Modal -->
+    <div class="modal" id="add-task-modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>Add Task</h2>
+                <button class="close-btn" onclick="closeAddTaskForm()">✖</button>
+            </header>
+            <form id="add-task-form" action="{% url 'add_task' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="document-title">Title:</label>
+                <input type="text" id="document-title" name="document-title" required>
+                <label for="start-date">Start Date:</label>
+                <input type="date" id="start-date" name="start-date" required>
+                <label for="end-date">End Date:</label>
+                <input type="date" id="end-date" name="end-date" required>
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4"></textarea>
+                <label for="file-upload">Upload File:</label>
+                <p class="pdf-note">*Please upload the document in PDF format only.</p>
+                <input type="file" id="file-upload" name="file-upload">
+                <button type="submit">Add Task</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Submissions Modal -->
+    <div class="modal" id="submissions-modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>Team Submissions</h2>
+                <button class="close-btn" onclick="closeSubmissionsModal()">✖</button>
+            </header>
+            <table class="submissions-table">
+                <thead>
+                    <tr>
+                        <th>Team Name</th>
+                        <th>Team ID</th>
+                        <th>Submission</th>
+                    </tr>
+                </thead>
+                <tbody id="submissions-list">
+                    <!-- Submissions will be dynamically populated here -->
+                    {% for task in tasks %}
+                        <div id="submissions-for-task-{{ task.task_id }}" style="display: none;">
+                            {% for submission in submissions %}
+                                {% if submission.task_id == task.task_id %}
+                                    <tr>
+                                        <td>{{ submission.team_name }}</td>
+                                        <td>{{ submission.team_id }}</td>
+                                        <td>
+                                            <a href="{{ request.scheme }}://{{ request.get_host }}{{ submission.file_upload.url }}" target="_blank">
+                                                View Submission
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% empty %}
+                                {% comment %} <tr>
+                                    <td colspan="3">No submissions for this task.</td>
+                                </tr> {% endcomment %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{% static 'js/tasks.js' %}"></script>
+    
+</body>
+</html>

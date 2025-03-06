@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/notification.css' %}">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f7;
+            display: flex;
+        }
+
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+        }
+
+        /* Sidebar Styling (Consistent with Dashboard) */
+        .sidebar {
+            width: 250px;
+            background-color: #1a1650;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li a.active,
+        .sidebar ul li a:hover {
+            background-color: #6a5acd;
+        }
+
+        .logout-btn {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            display: block;
+            padding: 15px;
+            background-color: #ff4d4d;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .header {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .header .icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        .notification-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .notification-box input,
+        .notification-box textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .send-btn {
+            padding: 10px 20px;
+            background-color: #6a5acd;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 1rem;
+        }
+
+        .send-btn:hover {
+            background-color: #5943b1;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="profile-icon"></div>
+                <h2>Mentor</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'dashboard' %}">My Teams</a></li>
+                    <li><a href="{% url 'tasks' %}">Tasks</a></li>
+                    <li><a href="{% url 'Mmarks' %}">Marks</a></li>
+                    <li><a href="{% url 'notification' %}" class="active">Notification</a></li>
+                    <li><a href="{% url 'report' %}">Report</a></li>
+                </ul>
+            </nav>
+            <a href="{% url 'main' %}" class="logout-btn">Logout</a>
+        </aside>
+        <main class="content">
+            <header class="header">
+                <h1><span class="icon">🔔</span> Notification</h1>
+            </header>
+            <section class="notification-section">
+                <div class="notification-header">
+                    <h2>Send Notification</h2>
+                </div>
+                <div class="notification-box">
+                    <form id="notification-form">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" placeholder="Enter notification title" required>
+
+                        <label for="description">Description:</label>
+                        <textarea id="description" rows="5" placeholder="Enter notification description" required></textarea>
+
+                        <button type="submit" class="send-btn">Send</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="{% static 'js/notification.js' %}"></script>
+</body>
+</html>
+
+

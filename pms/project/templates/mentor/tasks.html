@@ -1,0 +1,382 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks Dashboard</title>
+    {% comment %} <link rel="stylesheet" href="{% static 'css/tasks.css' %}"> {% endcomment %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f7;
+            display: flex;
+        }
+
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #1a1650;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li a.active,
+        .sidebar ul li a:hover {
+            background-color: #6a5acd;
+        }
+
+        .logout-btn {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            display: block;
+            padding: 15px;
+            background-color: #ff4d4d;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 40px;
+            background: #f5f5f5;
+        }
+        
+        /* Header Styling */
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .header .icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+        
+        /* Tasks Section */
+        .tasks-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        .tasks-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .add-task-btn {
+            padding: 10px 20px;
+            background-color: #6a5acd;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .add-task-btn:hover {
+            background-color: #5943b1;
+        }
+        
+        /* Table Styling */
+        .tasks-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .tasks-table th, .tasks-table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        .tasks-table th {
+            background-color: #6a5acd;
+            color: white;
+        }
+        
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        
+        
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="profile-icon"></div>
+                <h2>Mentor</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'dashboard' %}" >My Teams</a></li>
+                    <li><a href="{% url 'tasks' %}" class="active">Tasks</a></li>
+                    <li><a href="{% url 'Mmarks' %}">Marks</a></li>
+                    <li><a href="{% url 'notification' %}">Notification</a></li>
+                    <li><a href="{% url 'report' %}">Report</a></li>
+                </ul>
+            </nav>
+            <div class="logout-btn" onclick="navigateTo('{% url 'main' %}')">Logout</div>
+        </aside>
+        <main class="content">
+            <header class="header">
+                <h1><span class="icon">📋</span> Tasks</h1>
+            </header>
+            <section class="tasks-section">
+                <div class="tasks-header">
+                    <h2>Tasks</h2>
+                    <button class="add-task-btn" onclick="openAddTaskForm()">+ Add Task</button>
+                </div>
+                <table class="tasks-table">
+                    <thead>
+                        <tr>
+                            <th>Document Title</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Attached File</th>
+                            <th>View Submissions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tasks-list">
+                        {% for task in tasks %}
+                        <tr>
+                            <td>{{ task.doc_title }}</td>
+                            <td>{{ task.start_date }}</td>
+                            <td>{{ task.end_date }}</td>
+                            <td>
+                                {% if task.file_upload %}
+                                <a href="{{ request.scheme }}://{{ request.get_host }}{{ task.file_upload.url }}" target="_blank">
+                                    Open File
+                                </a>
+                                {% else %}
+                                No File Attached
+                                {% endif %}
+                            </td>
+                            <td>
+
+                                <!-- Button to view submissions -->
+<!-- Button to view submissions -->
+<button class="view-submissions-btn" data-task-id="{{ task.task_id }}">View Submissions</button>
+
+<!-- Modal for submissions -->
+<div id="modal-{{ task.task_id }}" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h3>Submissions for Task {{ task.task_id }}</h3>
+        <table>
+            {% for submission in submissions|get_item:task.task_id %}
+                {% if submission.task_id_id == task.task_id %}
+                    <tr>
+                        <td>{{ submission.team_name }}</td>
+                        <td>{{ submission.team_id_id }}</td>
+                        <td>
+                            <a href="{{ request.scheme }}://{{ request.get_host }}{{ submission.file_upload.url }}" target="_blank">
+                                View Submission
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% empty %}
+                <tr>
+                    <td colspan="3">No submissions for this task.</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5">No tasks found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Task Form Modal -->
+    <div class="modal" id="add-task-modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>Add Task</h2>
+                <button class="close-btn" onclick="closeAddTaskForm()">✖</button>
+            </header>
+            <form id="add-task-form" action="{% url 'add_task' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="document-title">Title:</label>
+                <input type="text" id="document-title" name="document-title" required>
+                <label for="start-date">Start Date:</label>
+                <input type="date" id="start-date" name="start-date" required>
+                <label for="end-date">End Date:</label>
+                <input type="date" id="end-date" name="end-date" required>
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4"></textarea>
+                <label for="file-upload">Upload File:</label>
+                <p class="pdf-note">*Please upload the document in PDF format only.</p>
+                <input type="file" id="file-upload" name="file-upload">
+                <button type="submit">Add Task</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Submissions Modal -->
+    <div class="modal" id="submissions-modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>Team Submissions</h2>
+                <button class="close-btn" onclick="closeSubmissionsModal()">✖</button>
+            </header>
+            <table class="submissions-table">
+                <thead>
+                    <tr>
+                        <th>Team Name</th>
+                        <th>Team ID</th>
+                        <th>Submission</th>
+                    </tr>
+                </thead>
+                <tbody id="submissions-list">
+                    {% for task in tasks %}
+                        <div id="submissions-for-task-{{ task.task_id }}" style="display: none;">
+                            {% for submission in submissions|get_item:task.task_id %}
+                                {% if submission.task_id_id == task.task_id %}
+                                    <tr>
+                                        <td>{{ submission.team_name }}</td>
+                                        <td>{{ submission.team_id_id }}</td>
+                                        <td>
+                                            <a href="{{ request.scheme }}://{{ request.get_host }}{{ submission.file_upload.url }}" target="_blank">
+                                                View Submission
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% empty %}
+                                <tr>
+                                    <td colspan="3">No submissions for this task.</td>
+                                </tr>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="{% static 'js/tasks.js' %}"></script>
+    <script>
+        // Add event listeners to all "View Submissions" buttons
+        document.querySelectorAll('.view-submissions-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                // Get the task ID from the button's data attribute
+                const taskId = this.getAttribute('data-task-id');
+                // Find the corresponding modal
+                const modal = document.getElementById(`modal-${taskId}`);
+                // Display the modal
+                modal.style.display = 'block';
+            });
+        });
+    
+        // Add event listeners to all close buttons
+        document.querySelectorAll('.close-btn').forEach(closeBtn => {
+            closeBtn.addEventListener('click', function () {
+                // Find the parent modal and hide it
+                const modal = this.closest('.modal');
+                modal.style.display = 'none';
+            });
+        });
+    
+        // Close the modal when clicking outside of it
+        window.addEventListener('click', function (event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        });
+    </script>
+    
+</body>
+</html>

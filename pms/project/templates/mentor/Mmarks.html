@@ -1,0 +1,288 @@
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentor Marks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f7;
+            display: flex;
+        }
+
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #1a1650;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+        }
+        .profile-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li a.active,
+        .sidebar ul li a:hover {
+            background-color:  #6a5acd;
+            color: white;
+        }
+
+        .logout-btn {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            display: block;
+            padding: 15px;
+            background-color: #ff4d4d;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            flex: 1;
+            padding: 40px;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .marks-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .marks-section h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #6a5acd;
+            color: white;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #fffaf5;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #5BC236;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #45a025;
+        }
+
+        .btn-upload {
+            background-color: #4A90E2;
+        }
+
+        .btn-upload:hover {
+            background-color: #357ab8;
+        }
+
+        input[type="number"] {
+            width: 50px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        .marks-display {
+            padding: 5px 10px;
+            background-color: #e8e8e8;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .input-cell {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="profile-section">
+                <div class="profile-icon"></div>
+                <h2>Mentor</h2>
+            </div>
+            <ul>
+                <li><a href="{% url 'dashboard' %}">My Teams</a></li>
+                <li><a href="{% url 'tasks' %}">Tasks</a></li>
+                <li><a href="{% url 'Mmarks' %}" class="active">Marks</a></li>
+                <li><a href="{% url 'notification' %}">Notification</a></li>
+                <li><a href="{% url 'report' %}">Report</a></li>
+            </ul>
+            <a href="{% url 'main' %}" class="logout-btn">Logout</a>
+        </div>
+        <div class="main-content">
+            <div class="marks-section">
+                <h1>Marks</h1>
+                <hr>
+                {% for team in teams %}
+                <h2>{{ team.team_name }}</h2>
+                <form method="POST" action="{% url 'upload_marks' %}">
+                    {% csrf_token %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>SNO.</th>
+                                <th>Name</th>
+                                <th>Student ID</th>
+                                <th>Email</th>
+                                <th>Marks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for member in team_members %}
+                            {% if member.team_id == team %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ member.member_name }}</td>
+                                <td>{{ member.stu_id }}</td>
+                                <td>{{ member.email }}</td>
+                                <td class="input-cell">
+                                    <input type="number" name="marks_{{ member.stu_id }}" 
+                                           value="{{ marks_dict|default:0|lookup:member.stu_id }}" 
+                                           min="0" max="100" style="width: 50px;">
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-upload">Upload Marks</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        function applyMarksToAll() {
+            const markInput = prompt("Enter marks for all team members:");
+            if (markInput !== null && !isNaN(markInput)) {
+                const marks = parseInt(markInput, 10);
+                document.querySelectorAll('.marks-display').forEach(span => {
+                    span.textContent = marks;
+                });
+                alert("Marks updated for all team members.");
+            } else {
+                alert("Invalid input. Please enter a valid number.");
+            }
+        }
+
+        function editMarks(element) {
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.value = element.textContent;
+            input.min = 0;
+            input.max = 100;
+            input.style.width = '50px';
+
+            input.onblur = function() {
+                if (!isNaN(input.value) && input.value !== '') {
+                    element.textContent = input.value;
+                }
+                element.style.display = 'inline';
+                input.remove();
+            };
+
+            element.style.display = 'none';
+            element.parentNode.appendChild(input);
+            input.focus();
+        }
+
+        function uploadMarks() {
+            alert("Marks successfully uploaded to coordinator!");
+        }
+    </script>
+</body>
+</html>

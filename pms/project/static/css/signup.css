@@ -1,0 +1,82 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Container Styling */
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    color: white;
+}
+
+/* Signup Box Styling */
+.signup-box {
+    background: white;
+    color: #333;
+    padding: 40px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.signup-box h1 {
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+}
+
+.signup-box p {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+/* Form Group Styling */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #1e3c72;
+    box-shadow: 0 0 5px rgba(30, 60, 114, 0.5);
+}
+
+/* Button Styling */
+button {
+    padding: 10px 20px;
+    background: #1e3c72;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #2a5298;
+}

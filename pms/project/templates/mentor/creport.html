@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Dashboard</title>
+    {% comment %} <link rel="stylesheet" href="{% static 'css/creport.css' %}"> {% endcomment %}
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            background: #f4f4f4;
+            height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: #1e1a5f;
+            color: white;
+            height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .profile-section {
+            text-align: center;
+        }
+
+        .profile-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+        }
+
+        .sidebar h2 {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            flex-grow: 1;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px 15px;
+            display: block;
+        }
+
+        .sidebar ul li a.active, 
+        .sidebar ul li a:hover {
+            background-color: #6a5acd;
+            border-radius: 5px;
+        }
+
+        /* Logout Button - Positioned at Bottom */
+        .logout-container {
+            margin-top: auto;
+        }
+
+        .logout-btn {
+            background-color: #d9534f;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            text-decoration: none;
+            display: block;
+            border-radius: 5px;
+        }
+
+        .logout-btn:hover {
+            background-color: #c9302c;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 40px;
+        }
+
+        .content h2 {
+            font-size: 30px;
+            color: #1e1a5f;
+            font-weight: bold;
+        }
+
+        hr {
+            border: 1px solid #1e1a5f;
+            width: 100%;
+        }
+
+        .report-section {
+            background: #fff;
+            padding: 20px;
+            border-left: 5px solid #1e1a5f;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-section h3 {
+            margin: 0;
+            font-size: 22px;
+            color: #1e1a5f;
+        }
+
+        .report-section p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .view-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .view-btn:hover {
+            background-color: #388E3C;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div>
+            <div class="profile-section">
+                <div class="profile-icon"></div>
+                <h2>Coordinator</h2>
+            </div>
+            <ul>
+                <li><a href="{% url 'cdashboard' %}">Group</a></li>
+                <li><a href="{% url 'cmarks' %}">Marks</a></li>
+                <li><a href="{% url 'cnotification' %}">Notification</a></li>
+                <li><a href="{% url 'creport' %}" class="active">Report</a></li>
+            </ul>
+        </div>
+        <div class="logout-container">
+            <a href="{% url 'main' %}" class="logout-btn">Logout</a>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2>📄 <span>Reports</span></h2>
+        <hr>
+        
+        <div class="report-section">
+            <h3>Team Alpha</h3>
+            <p>Submitted on: 2025-01-20 at 10:30 AM</p>
+            <p>Project Title: AI-Based Security</p>
+            <button class="view-btn" onclick="viewReport('alpha')">View Full</button>
+        </div>
+
+        <div class="report-section">
+            <h3>Team Beta</h3>
+            <p>Submitted on: 2025-01-22 at 3:15 PM</p>
+            <p>Project Title: Blockchain Solutions</p>
+            <button class="view-btn" onclick="viewReport('beta')">View Full</button>
+        </div>
+
+        <div class="report-section">
+            <h3>Team Gamma</h3>
+            <p>Submitted on: 2025-01-25 at 1:45 PM</p>
+            <p>Project Title: Smart IoT Devices</p>
+            <button class="view-btn" onclick="viewReport('gamma')">View Full</button>
+        </div>
+    </div>
+
+    {% comment %} <script src="{% static 'js/creport.js' %}"></script> {% endcomment %}
+</body>
+</html>
+

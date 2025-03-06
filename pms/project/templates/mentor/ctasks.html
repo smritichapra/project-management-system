@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+    <link rel="stylesheet" href="{% static 'css/ctasks.css' %}">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <p class="role">Coordinator</p>
+        <ul>
+            <li><a href="{% url 'cdashboard' %}">Groups</a></li>
+            <li><a href="#" class="active">Tasks</a></li>
+            <li> <a href="{% url 'cmarks' %}">Marks</a></li>
+            <li><a href="{% url 'cnotification' %}">Notification</a></li>
+            <li><a href="{% url 'creport' %}">Report</a></li>
+        </ul>
+        <a href="{% url 'clogin' %}" class="logout-btn">Logout</a>
+    </div>
+
+    <div class="content">
+        <h2 class="section-title">🗒️ <span>Tasks</span></h2>
+        <hr class="section-divider">
+        
+        <table>
+            <tr>
+                <th>Team Name</th>
+                <th>Name of Members</th>
+                <th>Project Name</th>
+                <th>Stu_ID</th>
+                <th>Team_id</th>
+                
+            </tr>
+            <tr>
+                <td>XYZ</td>
+                <td>
+                    <ul>
+                        <li>abc</li>
+                        <li>def</li>
+                    </ul>
+                </td>
+                <td>GHI</td>
+                <td>vbvbvb</td>
+                <td>csd71</td>
+                
+            </tr>
+        </table>
+
+        <div class="back-button">
+            <button onclick="goBack()">← Back</button>
+        </div>
+    </div>
+
+    <script src="{% static 'js/ctasks.js' %}"></script>
+</body>
+</html>

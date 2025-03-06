@@ -1,0 +1,237 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/ttasks.css' %}">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f7;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #1a1650;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        nav ul li {
+            margin: 10px 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        nav ul li.active, nav ul li:hover {
+            background-color: #6a5acd;
+        }
+
+        .logout-btn {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            display: block;
+            padding: 15px;
+            background-color: #ff4d4d;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .logout-btn:hover {
+            background-color: #ff4d4d;
+        }
+
+        /* Content Area */
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .header {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Tasks Section */
+        .tasks-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #1a1650;
+            color: white;
+        }
+
+        table td input[type="file"], table td select {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="profile-icon"></div>
+                <h2>Team</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'tdashboard' %}" class="nav-link">My Teams</a></li>
+
+                    <li class="active"><a href="{% url 'ttasks' %}" class="nav-link">Tasks</a></li>
+                    <li><a href="{% url 'tnotification' %}" class="nav-link">Notification</a></li>
+                    <li><a href="{% url 'treport' %}" class="nav-link">Report</a></li>
+                </ul>
+            </nav>
+            <div class="logout-btn" onclick="navigateTo('{% url 'main' %}')">Logout</div>
+        </aside>
+        <main class="content">
+            <header class="header">
+                <div class="header-profile">
+                    <h1> 📋Tasks</h1>
+                </div>
+            </header>
+            <section class="tasks-section">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Document Title</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Attached File</th>
+                            <th>Upload Task</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                        <tr>
+                            <td>{{ task.doc_title }}</td>
+                            <td>{{ task.start_date }}</td>
+                            <td>{{ task.end_date }}</td>
+                            <td>
+                                {% if task.file_upload %}
+                                <a href="{{ task.file_upload.url }}" target="_blank" class="file-link">
+                                    <i class="fas fa-file-pdf"></i> View File
+                                </a>
+                                {% else %}
+                                No file attached
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form method="POST" action="{% url 'upload_task' task.task_id %}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <input type="file" name="file" required>
+                                    <button type="submit" class="upload-btn">Upload</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+    <script>
+        // Sidebar navigation highlighting
+const menuItems = document.querySelectorAll('.sidebar nav ul li');
+menuItems.forEach((item) => {
+    item.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent default navigation
+        menuItems.forEach((menu) => menu.classList.remove('active'));
+        item.classList.add('active');
+
+        // Navigate to the corresponding page
+        const targetPage = item.querySelector('a').getAttribute('href');
+        window.location.href = targetPage;
+    });
+});
+
+// Logout functionality
+function logout() {
+    alert('You have logged out!');
+    window.location.href = "tlogin.html"; // Redirect to the login page
+}
+
+// Status change functionality for Tasks
+document.querySelectorAll('select').forEach((select) => {
+    select.addEventListener('change', (event) => {
+        const status = event.target.value;
+        alert(`Status changed to: ${status}`);
+    });
+});
+function navigateTo(page) {
+    window.location.href = page;
+}
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management Login</title>
+    {% comment %} <link rel="stylesheet" href="{% static 'css/clogin.css' %}"> {% endcomment %}
+    <style>
+        /* General styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #ffffff 50%, #0a0a37 50%);
+}
+
+/* Container */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Left Panel */
+.left-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.left-panel h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #1f1f1f;
+}
+
+.left-panel img {
+    width: 60%;
+}
+
+/* Right Panel */
+.right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 100px;
+    color: white;
+    background: linear-gradient(to right, #000000, #2e2e91);
+}
+
+.right-panel h2 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.right-panel p {
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.right-panel a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.right-panel a:hover {
+    text-decoration: underline;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+label {
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+input {
+    padding: 12px;
+    margin-top: 5px;
+    border-radius: 25px;
+    border: none;
+    width: 100%;
+}
+
+.remember-me {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.remember-me input {
+    margin-right: 10px;
+}
+
+.login-btn {
+    margin-top: 20px;
+    padding: 15px;
+    border: none;
+    border-radius: 25px;
+    background-color:rgb(52, 100, 224);
+    color: #0a0a37;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 104%;
+}
+
+.login-btn:hover {
+    background-color:rgb(60, 91, 203);
+}
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgba(5, 4, 6, 0.2);
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'main' %}" class="back-button">← </a>
+        <div class="left-panel">
+            <h1>PROJECT MANAGEMENT SYSTEM</h1>
+            <img src="{% static '/logo.png' %}" alt="Project Management Illustration">
+        </div>
+        <div class="right-panel">
+            <h2>Let’s you Login</h2>
+            <p>Welcome to your page </p>
+            <form id="loginForm" method="POST" action="{% url 'clogin' %}">
+                {% csrf_token %}
+                <label for="email">E-mail ID</label>
+                <input type="email" name="email" id="email" placeholder="Enter e-mail address" required>
+                
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter password" required>
+
+                
+
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+        </div>
+    </div>
+    {% comment %} <script>
+        var cdashboardURL = "{% url 'cdashboard' %}";  // ✅ This now correctly resolves the Django URL
+    
+        console.log("Redirecting to:", cdashboardURL);  // ✅ Check browser console for the correct URL
+    
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Stop form submission
+    
+            console.log("Redirecting to:", cdashboardURL);  // ✅ Debugging: Check the console
+            window.location.href = cdashboardURL; // ✅ Redirect after login
+        });
+    </script> {% endcomment %}
+    {% comment %} <script src="{% static 'js/clogin.js' %}"></script> {% endcomment %}
+</body>
+</html>

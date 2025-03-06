@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title> 
+    {% comment %} <link rel="stylesheet" href="{% static 'css/cdashboard.css' %}"> {% endcomment %}
+</head>
+<style>
+    /* General Styling */
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+    }
+
+    /* Sidebar Styling */
+    .sidebar {
+        width: 250px;
+        background-color: #1a1650;
+        color: white;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        
+    }
+    
+
+    .sidebar h2 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+   
+
+    .profile-icon {
+        width: 80px;
+        height: 80px;
+        background-color: #fff;
+        border-radius: 50%;
+        margin: 0 auto 10px auto;
+    }
+    .profile-section {
+        text-align: center;
+    }
+
+    .menu {
+        flex-grow: 1;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar ul li {
+        margin: 10px 0;
+    }
+
+    .sidebar ul li a {
+        text-decoration: none;
+        color: white;
+        font-size: 18px;
+        display: block;
+        padding: 10px;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+
+    .sidebar ul li a.active,
+    .sidebar ul li a:hover {
+        background-color: #6a5acd;
+    }
+
+    /* Logout Button */
+    .logout-container {
+        margin-top: auto;
+    }
+
+    .logout-btn {
+        text-decoration: none;
+        color: white;
+        font-size: 18px;
+        display: block;
+        padding: 15px;
+        background-color: #ff4d4d;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    /* Content Area */
+    .content {
+        flex: 1;
+        padding: 40px;
+        background: #f5f5f5;
+        overflow-y: auto;
+    }
+
+    /* Page Sections */
+    .page {
+        background: #fffaf0;
+        padding: 20px;
+        border-left: 5px solid #6a5acd;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+    }
+
+    /* Table Styling */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    table th, table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+
+    table th {
+        background-color: #6a5acd;
+        color: white;
+    }
+
+    /* Group Icon and Heading */
+    .icon {
+        font-size: 28px;
+        margin-right: 10px;
+        color: #1a1650;
+    }
+
+    h2 {
+        font-size: 28px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Separator Line */
+    .separator {
+        border: 1px solid #1a1650;
+        margin-bottom: 20px;
+    }
+
+    .submit-btn {
+        padding: 10px 15px;
+        background-color: #5BC236;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .submit-btn:hover {
+        background-color: #45a025;
+    }
+
+</style>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div>
+            <div class="profile-section">
+                <div class="profile-icon"></div>
+                <h2>Coordinator</h2>
+            </div>
+            <ul class="menu">
+                <li><a href="#" class="active" onclick="showPage('groups')">Group</a></li>
+                <li><a href="{% url 'cmarks' %}">Marks</a></li>
+                <li><a href="{% url 'cnotification' %}">Notification</a></li>
+                <li><a href="{% url 'creport' %}">Report</a></li>
+            </ul>
+        </div>
+        <div class="logout-container">
+            <a href="{% url 'main' %}" class="logout-btn">Logout</a>
+        </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content">
+        <!-- Groups Section -->
+        <div id="groups" class="page">
+            <h2><span class="icon">👥</span> Groups</h2>
+            <hr class="separator">
+            <table border="1">
+                <tr>
+                    <th>Team ID</th>
+                    <th>Team Name</th>
+                    <th>Name of Members</th>
+                    <th>Project Name</th>
+                    <th>Mentor</th>
+                    <th>Group ID</th>
+                    <th>Submission</th>
+                </tr>
+                {% for item in data %}
+                <tr>
+                    <td>{{ item.team_id }}</td>
+                    <td>{{ item.team_name }}</td>
+                    <td>
+                        <ul>
+                            {% for member in item.members %}
+                            
+                                <strong></strong> {{ member.member_name }}<br>
+                             
+                            
+                            <hr>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>{{ item.project_name }}</td>
+                    <td>
+                        <form id="form-{{ item.team_id }}" method="POST" action="{% url 'cdashboard' %}">
+                            {% csrf_token %}
+                            {% if item.allocated_mentor %}
+                                {{ item.allocated_mentor }}  <!-- Show allocated mentor -->
+                            {% else %}
+                                <select name="mentor_id" class="mentor-dropdown" required>
+                                    <option value="">Select Mentor</option>
+                                    {% for mentor in mentors %}
+                                    <option value="{{ mentor.m_email }}">{{ mentor.mentor_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                    </td>
+                    <td>
+                        {% if item.group_id %}
+                            {{ item.group_id }}  <!-- Show group ID -->
+                        {% else %}
+                            <input type="text" name="group_id" placeholder="Enter Group ID" required>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not item.allocated_mentor %}
+                            <input type="hidden" name="team_id" value="{{ item.team_id }}">
+                            <button type="submit" class="submit-btn">Submit</button>
+                        {% endif %}
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    {% comment %} <script src="{% static 'js/cdashboard.js' %}"></script> {% endcomment %}
+</body>
+</html>
+
+

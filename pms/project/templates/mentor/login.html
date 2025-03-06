@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f4f4f9;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            width: 80%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .left {
+            flex: 1;
+            background: #eef3ff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .left h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .left img {
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .right {
+            flex: 1;
+            background: linear-gradient(to bottom right, #4b6cb7, #182848);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .right h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .right p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .right form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .right input {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .right input[type="email"],
+        .right input[type="password"] {
+            background: #fff;
+            color: #333;
+        }
+
+        .right input[type="submit"] {
+            background: #4b6cb7;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .right input[type="submit"]:hover {
+            background: #32487c;
+        }
+
+        .right label {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .right label input {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'main' %}" class="back-button">← Back</a>
+        <div class="left">
+            <h1>PROJECT MANAGEMENT SYSTEM</h1>
+            <img src="{% static '/logo.png' %}" alt="Project Management Illustration">
+        </div>
+        <div class="right">
+            <h2>Let’s you Login</h2>
+            <p>Welcome to your page</p>
+            <form>
+                <input type="email" placeholder="Enter e-mail address" required>
+                <input type="password" placeholder="Enter password" required>
+                <label>
+                    <input type="checkbox"> Keep me login
+                </label>
+                <input type="submit" value="Login">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

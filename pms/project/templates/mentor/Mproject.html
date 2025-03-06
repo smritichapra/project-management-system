@@ -1,0 +1,160 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details</title>
+    <link rel="stylesheet" href="{% static 'css/Mproject.css' %}">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Container Styling */
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #1a1650;
+            color: white;
+            padding: 20px;
+        }
+        
+        /* Back Arrow Styling */
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .back-arrow:hover {
+            color: #ccc;
+        }
+        
+        /* Project Box Styling */
+        .project-box {
+            background: white;
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            width: auto;
+            max-width: 90%;
+            min-width: 300px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin-bottom: 20px; /* Added spacing */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            word-wrap: break-word;
+            display: inline-block; /* Allows width to adjust based on content */
+        }
+
+        /* Hover effect */
+        .project-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(128, 128, 128, 0.5);
+        }
+
+        .project-box h1 {
+            margin-bottom: 10px;
+        }
+
+        /* Auto-resizing content box */
+        .content-box {
+            display: inline-block;
+            padding: 15px;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-size: 1rem;
+            transition: width 0.3s ease, height 0.3s ease;
+            max-width: 80%;
+            min-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back Arrow -->
+        <div class="back-arrow" onclick="navigateTo('{% url 'dashboard'  %}')">
+            &#8592; Back
+        </div>
+
+        <!-- Project Name -->
+        <div class="project-box">
+            <h1>Project Details</h1>
+            <div id="project-name" class="content-box">
+                {{ project_name }}
+            </div>
+        </div>
+
+        <!-- Project Description -->
+        <div class="project-box">
+            <h1>Project Description</h1>
+            <div id="project-description" class="content-box">
+                {{ project_description }}
+            </div>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="project-box">
+            <h1>Tech Stack</h1>
+            <div id="tech-stack" class="content-box">
+                {{ tech_stack }}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function adjustBoxSize(boxId) {
+            let box = document.getElementById(boxId);
+            let textLength = box.innerText.length;
+
+            // Adjust width and height based on text length
+            if (textLength < 100) {
+                box.style.width = "300px";
+                box.style.height = "auto";
+            } else if (textLength < 200) {
+                box.style.width = "400px";
+                box.style.height = "auto";
+            } else if (textLength < 300) {
+                box.style.width = "500px";
+                box.style.height = "auto";
+            } else {
+                box.style.width = "600px";
+                box.style.height = "auto";
+            }
+        }
+
+        // Adjust sizes for all boxes
+        function adjustAllBoxes() {
+            adjustBoxSize("project-name");
+            adjustBoxSize("project-description");
+            adjustBoxSize("tech-stack");
+        }
+       
+            function navigateTo(url) {
+                window.location.href = url;
+            }
+          
+        // Call function on page load
+        window.onload = adjustAllBoxes;
+    </script>
+</body>
+</html>
+
+

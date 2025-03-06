@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposals</title>
+    <style>
+        /* Background with linear gradient */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #000000, #2e2e91);
+            color: white;
+        }
+
+        .container {
+            padding: 50px;
+        }
+
+        /* Attractive heading */
+        .heading {
+            font-size: 60px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 2s;
+            color: white;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Proposal list styling */
+        .proposal-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .proposal-item {
+            background: white;
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-left: 8px solid #6a5acd;
+            animation: slideIn 1s;
+            color: #333;
+        }
+
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateX(-50px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        .proposal-item p {
+            margin: 5px 0;
+            font-size: 18px;
+        }
+
+        /* Button styles */
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+
+        .accept-btn {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .accept-btn:hover {
+            background-color: #45a049;
+        }
+
+        .reject-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .reject-btn:hover {
+            background-color: #e53935;
+        }
+
+        /* Message styling */
+        .message {
+            display: none;
+            margin-top: 10px;
+            font-weight: bold;
+            animation: fadeInMessage 0.5s;
+        }
+
+        @keyframes fadeInMessage {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Small back button in top-left corner */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Small back button in top-left corner -->
+        <a href="cnotification.html" class="back-button">← Back</a>
+        
+        <!-- Page heading -->
+        <h1 class="heading">Proposals</h1>
+        
+        <!-- List of proposals -->
+        <ul class="proposal-list">
+            <li class="proposal-item">
+                <p><strong>Proposal 1:</strong> Project ABC</p>
+                <p>Description: Lorem ipsum dolor sit amet.</p>
+                <button class="btn accept-btn" onclick="showMessage(this, 'Accepted')">Accept</button>
+                <button class="btn reject-btn" onclick="showMessage(this, 'Rejected')">Reject</button>
+                <p class="message"></p>
+            </li>
+            <li class="proposal-item">
+                <p><strong>Proposal 2:</strong> Project XYZ</p>
+                <p>Description: Consectetur adipiscing elit.</p>
+                <button class="btn accept-btn" onclick="showMessage(this, 'Accepted')">Accept</button>
+                <button class="btn reject-btn" onclick="showMessage(this, 'Rejected')">Reject</button>
+                <p class="message"></p>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        function showMessage(button, status) {
+            const message = button.parentElement.querySelector('.message');
+            message.textContent = `Proposal ${status}!`;
+            message.style.color = status === 'Accepted' ? '#4caf50' : '#f44336';
+            message.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

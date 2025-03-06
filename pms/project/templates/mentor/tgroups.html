@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groups Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/tgroups.css' %}">
+    <script src="{% static 'js/tgroups.js' %}" defer></script>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>Dashboard</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'tdashboard' %}" class="nav-link">Team Members</a></li>
+                    <li><a href="{% url 'tgroups' %}" class="nav-link active">Groups</a></li>
+                    <li><a href="{% url 'ttasks' %}" class="nav-link">Tasks</a></li>
+                    <li><a href="{% url 'tnotification' %}" class="nav-link">Notification</a></li>
+                    <li><a href="{% url 'treport' %}" class="nav-link">Report</a></li>
+                </ul>
+            </nav>
+            <div class="logout-btn" onclick="navigateTo('{% url 'main' %}')">Logout</div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-title">
+                    <img src="groups-icon.png" alt="Groups Icon" class="header-icon">
+                    <h1>Groups</h1>
+                </div>
+            </header>
+
+            <!-- Groups Table -->
+            <section class="content-section">
+                <table class="groups-table">
+                    <thead>
+                        <tr>
+                            <th>Team Name</th>
+                            <th>Name of Members</th>
+                            <th>Project Name</th>
+                            <th>Mentor</th>
+                            <th>Abstract</th>
+                            <th>Team ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Team Alpha</td>
+                            <td>John, Alice, Mark</td>
+                            <td>AI Assistant</td>
+                            <td>Dr. Smith</td>
+                            <td>AI assistant for automating daily tasks</td>
+                            <td>101</td>
+                        </tr>
+                        <tr>
+                            <td>Team Beta</td>
+                            <td>Emma, David, Sarah</td>
+                            <td>IoT Home</td>
+                            <td>Dr. Johnson</td>
+                            <td>Smart IoT devices for home automation</td>
+                            <td>102</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

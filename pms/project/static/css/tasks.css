@@ -1,0 +1,223 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f7;
+}
+
+/* Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    background-color: #3b3a92;
+    color: white;
+    width: 20%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.profile-section {
+    text-align: center;
+}
+
+.profile-icon {
+    width: 80px;
+    height: 80px;
+    background-color: #fff;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+}
+
+nav ul {
+    list-style: none;
+    margin-top: 20px;
+}
+
+nav ul li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+nav ul li:hover, nav ul li.active {
+    background-color: #5756ab;
+    border-radius: 5px;
+}
+
+.logout-btn {
+    padding: 10px;
+    background-color: #d9534f;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #c9302c;
+}
+
+/* Content Area */
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.header {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.header .icon {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+/* Tasks Section */
+.tasks-section {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.tasks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-task-btn {
+    padding: 10px 20px;
+    background-color: #4b6cb7;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-task-btn:hover {
+    background-color: #32487c;
+}
+
+/* Table Styling */
+.tasks-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tasks-table th, .tasks-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.tasks-table th {
+    background-color: #4449c7;
+    color: white;
+}
+
+.upload-btn {
+    padding: 5px 10px;
+    background-color: #4b6cb7;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: backgr
+}
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+}
+
+form .form-group {
+    margin-bottom: 15px;
+}
+
+form .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form .form-group input,
+form .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form .form-group textarea {
+    resize: none;
+    height: 80px;
+}
+/* File Upload Styles */
+.file-input {
+    display: none; /* Hidden file input field */
+}
+
+.upload-label {
+    padding: 5px 10px;
+    background-color: #4b6cb7;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.upload-label:hover {
+    background-color: #32487c;
+}
+
