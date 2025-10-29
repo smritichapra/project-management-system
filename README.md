@@ -87,8 +87,6 @@ Each table is linked through primary and foreign keys ensuring referential integ
 
 ## 🖥️ Screenshots
 
-![Login Page](pms1.jpg)
+![IMAGE1](pms2.jpg)
 
-![Coordinator Dashboard](assets/dashboard.png)
-
-![Project List](assets/project_list.png)
+![IMAGE2](pms5.jpg)
