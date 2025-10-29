@@ -82,5 +82,13 @@ Each table is linked through primary and foreign keys ensuring referential integ
 ### 🧠 Design Diagrams
  **ER Diagram**
 ![ER DIAGRAM](er.png)
+
 ---
 
+## 🖥️ Screenshots
+
+![Login Page](pms1.jpg)
+
+![Coordinator Dashboard](assets/dashboard.png)
+
+![Project List](assets/project_list.png)
