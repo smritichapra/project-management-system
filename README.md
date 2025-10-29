@@ -81,6 +81,6 @@ Each table is linked through primary and foreign keys ensuring referential integ
 
 ### 🧠 Design Diagrams
  **ER Diagram**
-![ER DIAGRAM](assets/login.png)
+![ER DIAGRAM](er.png)
 ---
 
